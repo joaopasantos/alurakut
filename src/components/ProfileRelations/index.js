@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Box from "../Box";
+import styled from 'styled-components';
+import Box from '../Box';
 
-export const ProfileRelationsBoxWrapper = styled(Box)`
+const ProfileRelationsBoxWrapper = styled(Box)`
   ul {
     display: grid;
     grid-gap: 8px;
@@ -50,3 +50,6 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
     }
   }
 `;
+
+// eslint-disable-next-line import/prefer-default-export
+export { ProfileRelationsBoxWrapper };
