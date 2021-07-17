@@ -51,5 +51,4 @@ const ProfileRelationsBoxWrapper = styled(Box)`
   }
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { ProfileRelationsBoxWrapper };
+export default ProfileRelationsBoxWrapper;

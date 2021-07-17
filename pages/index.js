@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import {
@@ -8,7 +10,7 @@ import {
   AlurakutProfileSidebarMenuDefault,
   OrkutNostalgicIconSet,
 } from '../src/lib/AlurakutCommons';
-import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
+import ProfileRelationsBoxWrapper from '../src/components/ProfileRelations';
 
 function ProfileSidebar(props) {
   return (
@@ -57,14 +59,14 @@ function ProfileRelationsBox(props) {
   );
 }
 
-export default function Home() {
-  const githubUser = 'joaopasantos';
+export default function Home(props) {
+  const { githubUser } = props;
   const [communities, setCommunities] = React.useState([]);
   const [following, setFollowing] = React.useState([]);
   React.useEffect(
     () => {
       // Friends (GitHub API)
-      fetch('https://api.github.com/users/joaopasantos/following')
+      fetch(`https://api.github.com/users/${githubUser}/following`)
         .then((response) => response.json())
         .then((response) => {
           setFollowing(response);
@@ -179,4 +181,31 @@ export default function Home() {
       </MainGrid>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context);
+  const token = cookies.USER_TOKEN;
+
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => response.json());
+
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  const { githubUser } = jwt.decode(token);
+  return {
+    props: {
+      githubUser,
+    },
+  };
 }
