@@ -40,6 +40,7 @@ export default function LoginPage() {
             onSubmit={
               (event) => {
                 event.preventDefault();
+
                 fetch('https://alurakut.vercel.app/api/login',
                   {
                     method: 'POST',

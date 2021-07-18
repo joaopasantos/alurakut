@@ -193,6 +193,14 @@ export async function getServerSideProps(context) {
     },
   }).then((response) => response.json());
 
+  // const { isAuthenticated } = await fetch('/api/auth', {
+  //   headers: {
+  //     Authorization: token,
+  //   },
+  // }).then((response) => response.json());
+
+  console.log('isAuthenticated: ', isAuthenticated);
+
   if (!isAuthenticated) {
     return {
       redirect: {
