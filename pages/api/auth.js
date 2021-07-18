@@ -4,6 +4,13 @@ export default async function requestHandler(request, response) {
   const { authorization } = request.headers;
   const token = authorization;
 
+  if (!token) {
+    response.send({
+      isAuthenticated: false,
+    });
+    return;
+  }
+
   const { githubUser } = jwt.decode(token);
   fetch(`https://api.github.com/users/${githubUser}`)
     .then((res) => res.json())
@@ -12,11 +19,11 @@ export default async function requestHandler(request, response) {
         response.send({
           isAuthenticated: false,
         });
-        return;
+      } else {
+        response.send({
+          isAuthenticated: true,
+        });
       }
-      response.send({
-        isAuthenticated: true,
-      });
       // eslint-disable-next-line no-useless-return
       return;
     });
