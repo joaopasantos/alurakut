@@ -187,20 +187,20 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
 
-  const { isAuthenticated } = await fetch('https://alurakut-joaopasantos.vercel.app/api/auth', {
-    headers: {
-      Authorization: token,
-    },
-  }).then((response) => response.json());
+  // const { isAuthenticated } = await fetch('https://alurakut-joaopasantos.vercel.app/api/auth', {
+  //   headers: {
+  //     Authorization: token,
+  //   },
+  // }).then((response) => response.json());
 
-  if (!isAuthenticated) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
+  // if (!isAuthenticated) {
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   const { githubUser } = jwt.decode(token);
   return {
