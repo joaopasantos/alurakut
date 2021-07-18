@@ -187,6 +187,15 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
 
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   // const { isAuthenticated } = await fetch('https://alurakut-joaopasantos.vercel.app/api/auth', {
   //   headers: {
   //     Authorization: token,
